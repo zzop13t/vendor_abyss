@@ -1,11 +1,11 @@
 //
-// SPDX-FileCopyrightText: 2024 The LineageOS Project
+// SPDX-FileCopyrightText: 2024 The AbyssOS Project
 // SPDX-License-Identifier: Apache-2.0
 //
 
 runtime_resource_overlay {
-    name: "LineageBlackTheme",
+    name: "AbyssBlackTheme",
 
-    theme: "LineageBlackTheme",
+    theme: "AbyssBlackTheme",
     product_specific: true,
 }

@@ -1,10 +1,10 @@
 <!--
- * Copyright (C) 2020,2022 The LineageOS Project
+ * Copyright (C) 2020,2022 The AbyssOS Project
  *
  * SPDX-License-Identifier: Apache-2.0
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="org.lineageos.overlay.customization.blacktheme"
+        package="org.abyssos.overlay.customization.blacktheme"
         android:versionCode="1"
         android:versionName="1.0">
     <overlay android:targetPackage="android"

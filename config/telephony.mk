@@ -16,7 +16,7 @@ PRODUCT_PACKAGES += \
     messaging \
     Stk
 
-ifeq ($(LINEAGE_BUILD),true)
+ifeq ($(ABYSS_BUILD),true)
 # Default ringtone
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.config.ringtone=Orion.ogg

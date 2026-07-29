@@ -8,7 +8,7 @@ PRODUCT_SOURCE_ROOT_DIRS += -prebuilts/misc/protobuf_vendorcompat
 # Allow vendor prebuilt repos to exclude themselves from bp scanning
 -include $(sort $(wildcard vendor/*/*/exclude-bp.mk))
 
-PRODUCT_BRAND ?= LineageOS
+PRODUCT_BRAND ?= Abyss
 
 ifeq ($(PRODUCT_GMS_CLIENTID_BASE),)
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -47,45 +47,20 @@ endif
 PRODUCT_PRODUCT_PROPERTIES += persist.sys.strictmode.disable=true
 endif
 
-# Backup Tool
-PRODUCT_COPY_FILES += \
-    vendor/lineage/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
-    vendor/lineage/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions
-
-ifeq ($(LINEAGE_BUILD),true)
-PRODUCT_PACKAGES += \
-    50-lineage.sh
-
-PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
-    system/addon.d/50-lineage.sh
-endif
-
-ifneq ($(strip $(AB_OTA_PARTITIONS) $(AB_OTA_POSTINSTALL_CONFIG)),)
-PRODUCT_COPY_FILES += \
-    vendor/lineage/prebuilt/common/bin/backuptool_ab.sh:$(TARGET_COPY_OUT_SYSTEM)/bin/backuptool_ab.sh \
-    vendor/lineage/prebuilt/common/bin/backuptool_ab.functions:$(TARGET_COPY_OUT_SYSTEM)/bin/backuptool_ab.functions \
-    vendor/lineage/prebuilt/common/bin/backuptool_postinstall.sh:$(TARGET_COPY_OUT_SYSTEM)/bin/backuptool_postinstall.sh
-
-PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
-    system/bin/backuptool_ab.sh \
-    system/bin/backuptool_ab.functions \
-    system/bin/backuptool_postinstall.sh
-
 ifneq ($(TARGET_BUILD_VARIANT),user)
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.ota.allow_downgrade=true
 endif
+
+ifeq ($(ABYSS_BUILD),true)
+# Abyss-specific broadcast actions whitelist
+PRODUCT_COPY_FILES += \
+    vendor/abyss/config/permissions/abyss-sysconfig.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/sysconfig/abyss-sysconfig.xml
 endif
 
-ifeq ($(LINEAGE_BUILD),true)
-# Lineage-specific broadcast actions whitelist
+# Abyss-specific init rc file
 PRODUCT_COPY_FILES += \
-    vendor/lineage/config/permissions/lineage-sysconfig.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/sysconfig/lineage-sysconfig.xml
-endif
-
-# Lineage-specific init rc file
-PRODUCT_COPY_FILES += \
-    vendor/lineage/prebuilt/common/etc/init/init.lineage-system_ext.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/init.lineage-system_ext.rc
+    vendor/abyss/prebuilt/common/etc/init/init.abyss-system_ext.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/init.abyss-system_ext.rc
 
 # Enable SIP+VoIP on all targets
 PRODUCT_COPY_FILES += \
@@ -99,24 +74,14 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     frameworks/base/data/keyboards/Vendor_045e_Product_028e.kl:$(TARGET_COPY_OUT_PRODUCT)/usr/keylayout/Vendor_045e_Product_0719.kl
 
-# Component overrides
-PRODUCT_PACKAGES += \
-    lineage-component-overrides.xml
-
-ifeq ($(LINEAGE_BUILD),true)
-# This is Lineage!
-PRODUCT_COPY_FILES += \
-    vendor/lineage/config/permissions/org.lineageos.android.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/org.lineageos.android.xml
-endif
-
 # Enforce privapp-permissions whitelist
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.control_privapp_permissions=enforce
 
-TARGET_DISABLE_LINEAGE_SDK = true
-ifneq ($(TARGET_DISABLE_LINEAGE_SDK), true)
-# Lineage SDK
-include vendor/lineage/config/lineage_sdk_common.mk
+TARGET_DISABLE_ABYSS_SDK = true
+ifneq ($(TARGET_DISABLE_ABYSS_SDK), true)
+# Abyss SDK
+include vendor/abyss/config/abyss_sdk_common.mk
 endif
 
 # Do not include art debug targets
@@ -135,7 +100,7 @@ SYSTEMUI_OPTIMIZE_JAVA ?= true
 # Disable vendor restrictions
 PRODUCT_RESTRICT_VENDOR_FILES := false
 
-ifeq ($(LINEAGE_BUILD),true)
+ifeq ($(ABYSS_BUILD),true)
 ifneq ($(TARGET_DISABLE_EPPE),true)
 # Require all requested packages to exist
 $(call enforce-product-packages-exist-internal,$(lastword $(_include_stack)),product_manifest.xml rild Calendar android.hidl.memory@1.0-impl.vendor vndk_apex_snapshot_package)
@@ -146,40 +111,19 @@ endif
 TARGET_SCREEN_WIDTH ?= 1080
 TARGET_SCREEN_HEIGHT ?= 1920
 
-INCLUDE_LINEAGE_BOOTANIMATION := false
-ifneq ($(INCLUDE_LINEAGE_BOOTANIMATION),false)
+INCLUDE_ABYSS_BOOTANIMATION := false
+ifneq ($(INCLUDE_ABYSS_BOOTANIMATION),false)
 PRODUCT_PACKAGES += \
     bootanimation.zip \
     bootanimation-dark.zip
 endif
 
-# Lineage interfaces
+# Abyss interfaces are kept under their existing module name because device
+# compatibility matrices may still reference it from other trees.
 PRODUCT_PACKAGES += \
-    framework_compatibility_matrix.lineage.xml
+    framework_compatibility_matrix.abyss.xml
 
-# Lineage packages
-ifeq ($(LINEAGE_BUILD),true)
-ifeq ($(PRODUCT_IS_ATV),)
-PRODUCT_PACKAGES += \
-    ExactCalculator \
-    Jelly
-endif
-
-ifeq ($(PRODUCT_IS_AUTOMOTIVE),)
-PRODUCT_PACKAGES += \
-    LineageParts \
-    LineageSetupWizard
-endif
-
-PRODUCT_PACKAGES += \
-    LineageSettingsProvider \
-    Updater
-
-PRODUCT_COPY_FILES += \
-    vendor/lineage/prebuilt/common/etc/init/init.lineage-updater.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/init.lineage-updater.rc
-endif
-
-# Extra tools in Lineage
+# Extra tools in Abyss
 PRODUCT_PACKAGES += \
     bash \
     curl \
@@ -213,7 +157,7 @@ PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
 
 # FRP
 PRODUCT_COPY_FILES += \
-    vendor/lineage/prebuilt/common/bin/wipe-frp.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/wipe-frp
+    vendor/abyss/prebuilt/common/bin/wipe-frp.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/wipe-frp
 
 # Openssh
 PRODUCT_PACKAGES += \
@@ -226,7 +170,7 @@ PRODUCT_PACKAGES += \
     start-ssh
 
 PRODUCT_COPY_FILES += \
-    vendor/lineage/prebuilt/common/etc/init/init.openssh.rc:$(TARGET_COPY_OUT_PRODUCT)/etc/init/init.openssh.rc
+    vendor/abyss/prebuilt/common/etc/init/init.openssh.rc:$(TARGET_COPY_OUT_PRODUCT)/etc/init/init.openssh.rc
 
 # rsync
 PRODUCT_PACKAGES += \
@@ -272,17 +216,17 @@ PRODUCT_PRODUCT_PROPERTIES += \
 endif
 
 # SetupWizard
-ifeq ($(LINEAGE_BUILD),true)
+ifeq ($(ABYSS_BUILD),true)
 PRODUCT_PRODUCT_PROPERTIES += \
     setupwizard.theme=glif_v4 \
     setupwizard.feature.day_night_mode_enabled=true
 endif
 
 # Overlays
-PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/lineage/overlay/no-rro
+PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/abyss/overlay/no-rro
 PRODUCT_PACKAGE_OVERLAYS += \
-    vendor/lineage/overlay/common \
-    vendor/lineage/overlay/no-rro
+    vendor/abyss/overlay/common \
+    vendor/abyss/overlay/no-rro
 
 PRODUCT_PACKAGES += \
     DocumentsUIOverlay \
@@ -303,13 +247,14 @@ PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/crowdin/overlay
 PRODUCT_PACKAGE_OVERLAYS += vendor/crowdin/overlay
 
 PRODUCT_EXTRA_RECOVERY_KEYS += \
-    vendor/lineage/build/target/product/security/lineage
+    vendor/abyss/build/target/product/security/abyss
 
-ifeq ($(LINEAGE_BUILD),true)
-include vendor/lineage/config/version.mk
-endif
+# ifeq ($(ABYSS_BUILD),true)
+include vendor/abyss/config/version.mk
+# endif
 
--include vendor/lineage-priv/keys/keys.mk
+-include vendor/abyss-priv/keys/keys.mk
+-include vendor/microg/microg.mk
 
 -include $(WORKSPACE)/build_env/image-auto-bits.mk
--include vendor/lineage/config/partner_gms.mk
+-include vendor/abyss/config/partner_gms.mk

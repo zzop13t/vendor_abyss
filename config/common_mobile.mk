@@ -1,13 +1,13 @@
-# Inherit common mobile Lineage stuff
-$(call inherit-product, vendor/lineage/config/common.mk)
+# Inherit common mobile Abyss stuff
+$(call inherit-product, vendor/abyss/config/common.mk)
 
-ifeq ($(LINEAGE_BUILD),true)
+ifeq ($(ABYSS_BUILD),true)
 # Include AOSP audio files
 $(call inherit-product-if-exists, frameworks/base/data/sounds/AudioPackage14.mk)
-include vendor/lineage/config/aosp_audio.mk
+include vendor/abyss/config/aosp_audio.mk
 
-# Include Lineage audio files
-include vendor/lineage/config/lineage_audio.mk
+# Include Abyss audio files
+include vendor/abyss/config/abyss_audio.mk
 
 # Default notification/alarm sounds
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -19,12 +19,6 @@ endif
 PRODUCT_PACKAGES += \
     AvatarPicker \
     LatinIME
-
-ifeq ($(LINEAGE_BUILD),true)
-PRODUCT_PACKAGES += \
-    Backgrounds \
-    Glimpse
-endif
 
 ifeq ($(PRODUCT_TYPE), go)
 PRODUCT_PACKAGES += \
@@ -46,16 +40,6 @@ PRODUCT_PACKAGES += \
 # Charger
 PRODUCT_PACKAGES += \
     charger_res_images
-
-ifneq ($(WITH_LINEAGE_CHARGER),false)
-PRODUCT_PACKAGES += \
-    lineage_charger_animation \
-    lineage_charger_animation_vendor
-endif
-
-# Legal
-PRODUCT_PRODUCT_PROPERTIES += \
-    ro.lineagelegal.url=https://lineageos.org/legal
 
 # Media
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -80,6 +64,5 @@ PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
 
 # Themes
 PRODUCT_PACKAGES += \
-    LineageBlackTheme \
     ThemePicker \
     ThemesStub
