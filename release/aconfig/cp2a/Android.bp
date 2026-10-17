@@ -14,7 +14,7 @@
 // limitations under the License.
 
 aconfig_value_set {
-    name: "aconfig_value_set-abyss-bp4a",
+    name: "aconfig_value_set-abyss-cp2a",
     srcs: [
         "*/Android.bp",
     ],

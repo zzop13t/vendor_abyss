@@ -66,10 +66,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.sip.voip.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/android.software.sip.voip.xml
 
-# Credential storage
-PRODUCT_PACKAGES += \
-    android.software.credentials.prebuilt.xml
-
 # Enable wireless Xbox 360 controller support
 PRODUCT_COPY_FILES += \
     frameworks/base/data/keyboards/Vendor_045e_Product_028e.kl:$(TARGET_COPY_OUT_PRODUCT)/usr/keylayout/Vendor_045e_Product_0719.kl
@@ -142,6 +138,12 @@ PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
     system/bin/setcap \
     system/%/libzstd.so
 
+# fastbootd
+ifneq ($(TARGET_DISABLE_FASTBOOTD),true)
+PRODUCT_PACKAGES += \
+    fastbootd
+endif
+
 # Filesystems tools
 PRODUCT_PACKAGES += \
     fsck.ntfs \
@@ -171,6 +173,10 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_COPY_FILES += \
     vendor/abyss/prebuilt/common/etc/init/init.openssh.rc:$(TARGET_COPY_OUT_PRODUCT)/etc/init/init.openssh.rc
+
+# OverlayFS
+PRODUCT_PACKAGES_DEBUG += \
+    disable-overlays
 
 # rsync
 PRODUCT_PACKAGES += \
@@ -218,7 +224,7 @@ endif
 # SetupWizard
 ifeq ($(ABYSS_BUILD),true)
 PRODUCT_PRODUCT_PROPERTIES += \
-    setupwizard.theme=glif_v4 \
+    setupwizard.theme=glif_expressive \
     setupwizard.feature.day_night_mode_enabled=true
 endif
 

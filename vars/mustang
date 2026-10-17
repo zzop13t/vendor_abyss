@@ -2,16 +2,16 @@
 
 # Updated semi-manually via pixel/update-any-var.sh
 
-readonly build_id="BP4A.260205.001"
+readonly build_id="CP2A.260805.005"
 
 # Updated automatically via pixel/update-device-vars.sh
 
-readonly build_number="14624666"
+readonly build_number="15828068"
 
-readonly image_url="https://dl.google.com/dl/android/aosp/mustang-bp4a.260205.001-factory-b22707a4.zip"
-readonly image_sha256="b22707a49de4f0b117bad721a2f3b85e0be42ca916b92e6df65c7946ec455de2"
+readonly image_url="https://dl.google.com/dl/android/aosp/mustang-cp2a.260805.005-factory-1be14b0e.zip"
+readonly image_sha256="1be14b0e5af4f464fc8c1be0565af1ae9aeeb4b640023f52c8eaa666e7163e6c"
 
-readonly flash_url="https://flash.android.com/build/14624666?target=mustang-user&signed"
+readonly flash_url="https://flash.android.com/build/15828068?target=mustang-user&signed"
 
-readonly ota_url="https://dl.google.com/dl/android/aosp/mustang-ota-bp4a.260205.001-8089c798.zip"
-readonly ota_sha256="8089c798a04e8e8633e810e2103680ecd9265cdc3eac51d30a225338d8cd7604"
+readonly ota_url="https://dl.google.com/dl/android/aosp/mustang-ota-cp2a.260805.005-35a18475.zip"
+readonly ota_sha256="35a1847578c4c4948a4c37ebded600a1c38ef4f6c9a03a349cbbaedcacfe9223"

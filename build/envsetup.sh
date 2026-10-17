@@ -1,4 +1,4 @@
-CLANG_VERSION=$(${ANDROID_BUILD_TOP}/build/soong/scripts/get_clang_version.py)
+CLANG_VERSION=$(${ANDROID_BUILD_TOP}/vendor/abyss/tools/get_clang_version.py)
 export LLVM_AOSP_PREBUILTS_VERSION="${CLANG_VERSION}"
 
 RUST_VERSION=$(grep 'RustDefaultVersion =' ${ANDROID_BUILD_TOP}/build/soong/rust/config/global.go | awk '{print $3}' | awk -F '"' '{print $2}')
@@ -1007,7 +1007,13 @@ function build_kernel() {
 
     # Remove previous kernel prebuilts
     if [ -d "${target_kernel_dir}" ]; then
-        find "${target_kernel_dir}" -maxdepth 1 ! \( -name .gitignore \) -type f -delete
+        local find_args=("-maxdepth" "1" "-type" "f" "!" "-name" ".gitignore")
+        # Some kernels don't generate the module lists, in which case they're
+        # checked in next to the prebuilts. Don't delete what won't come back.
+        if [[ "$(_get_build_var_cached TARGET_PROVIDES_STATIC_MODULE_LISTS)" == "true" ]]; then
+            find_args+=("!" "-name" "*.modules.load*" "!" "-name" "*.modules.blocklist")
+        fi
+        find "${target_kernel_dir}" "${find_args[@]}" -delete
     fi
 
     # Copy the new kernel prebuilts

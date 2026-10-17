@@ -2,16 +2,16 @@
 
 # Updated semi-manually via pixel/update-any-var.sh
 
-readonly build_id="BP4A.251205.006"
+readonly build_id="CP2A.260705.006"
 
 # Updated automatically via pixel/update-device-vars.sh
 
-readonly build_number="14401865"
+readonly build_number="15641320"
 
-readonly image_url="https://dl.google.com/dl/android/aosp/cheetah-bp4a.251205.006-factory-1577f43b.zip"
-readonly image_sha256="1577f43bed22ecfe035eb43fa86f3c24285f3b1cb221b6713462bfd0c5d32da7"
+readonly image_url="https://dl.google.com/dl/android/aosp/cheetah-cp2a.260705.006-factory-23d564ad.zip"
+readonly image_sha256="23d564ad5d0db2d04fa4bbde43930c9b0f8e570a51e8090c8d37c71dc96a2c0c"
 
-readonly flash_url="https://flash.android.com/build/14401865?target=cheetah-user&signed"
+readonly flash_url="https://flash.android.com/build/15641320?target=cheetah-user&signed"
 
-readonly ota_url="https://dl.google.com/dl/android/aosp/cheetah-ota-bp4a.251205.006-92811d4e.zip"
-readonly ota_sha256="92811d4e81bc2b5078e7f70b7d876fbc1431c736c13bbc11127218dde66d3517"
+readonly ota_url="https://dl.google.com/dl/android/aosp/cheetah-ota-cp2a.260705.006-750a8142.zip"
+readonly ota_sha256="750a81420f77492a131bb01d9503eb89be7108f4031431bdc7e33d25f09d7387"
