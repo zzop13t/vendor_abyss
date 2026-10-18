@@ -151,7 +151,7 @@ endif
 KERNEL_MAKE_FLAGS += -j$(shell getconf _NPROCESSORS_ONLN)
 
 TOOLS_PATH_OVERRIDE := \
-    HIP_PATH=none PERL5LIB=$(BUILD_TOP)/prebuilts/tools-abyss/common/perl-base
+    HIP_PATH=none PERL5LIB=$(BUILD_TOP)/prebuilts/tools-lineage/common/perl-base
 
 ifeq ($(TARGET_KERNEL_LIBC_SYSROOT_USE), host)
     KERNEL_HOST_C_LD_FLAGS_SYSROOT :=
